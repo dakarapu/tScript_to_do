@@ -5,7 +5,7 @@ enum Roles {
     'guest' = 'Guest'
 }
 
-interface Person {
+export interface Person {
     fname: string, lname: string, role: string, readonly empId: number
 }
 
