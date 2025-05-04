@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", //target javascript version compilation
+    "lib": [
+      "ES2022" // this will ensure typescript understand our base code
+    ],
+    "module": "NodeNext", // to ensure all imports exports work
+    "rootDir": "./src", // typescript source code folder
+    "outDir": "./dist", // to set output directory
+    "esModuleInterop": true, // ensure no issues in import modules for third-party libraries for commonjs and module
+    "skipLibCheck": true, // this will skip the typechecks on thir-party libraries
+    "strict": true // to implement strict type checks
+  },
+}
