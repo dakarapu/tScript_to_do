@@ -1,78 +1,28 @@
-enum Roles {
+import mongoose, { Schema, Document } from 'mongoose';
+
+export enum Roles {
     'admin' = 'Admin',
     'moderator' = 'Moderator',
     'user' = 'User',
     'guest' = 'Guest'
 }
 
-export interface Person {
-    fname: string, lname: string, role: string, readonly empId: number
+export interface IUser extends Document {
+    fname: string, lname: string, role: Roles, readonly empId: number, createdAt?: Date, updatedAt?: Date
 }
 
-export class User implements Person {
-    constructor(
-        public fname: string,
-        public lname: string,
-        public role: string,
-        public readonly empId: number,
-    ) {
-        this.fname = fname;
-        this.lname = lname;
-        this.role = role;
-        this.empId = empId;
-    }
-}
+const userSchema: Schema<IUser> = new Schema(
+    {
+        fname: { type: String, required: true },
+        lname: { type: String, required: true },
+        role: { type: String, required: true },
+        empId: { type: Number, required: true },
+        createdAt: { type: Date, default: Date.now },
+        updatedAt: { type: Date, default: Date.now },
+    },
+    { timestamps: true }
+);
 
+const User = mongoose.model<IUser>('User', userSchema);
 
-export class UserManager {
-    public usersList: Map<number, User>;
-    constructor() {
-        this.usersList = new Map<number, User>();
-    }
-
-    getUserKeys(): Iterable<number> {
-        return this.usersList.keys();
-    }
-
-    getUsers(): User[] {
-        return Array.from(this.usersList.values());
-    }
-
-    createUser(user: User): string | Person | undefined {
-        const { fname, lname, role, empId } = user;
-        if (this.usersList.has(empId)) return `User already exists`
-        this.usersList.set(empId, user);
-        return this.usersList.get(empId);
-    }
-
-    getUserById(id: number): User | string {
-        if (!id) return `Provide a valid Id`
-
-        const user = this.usersList.get(id);
-        return user ? user : 'No user found with provided Id';
-    }
-
-    updateUserById(id: number, data: User): User | string | undefined {
-        const { fname, lname, role, empId } = data;
-        if (!id) return `Provide a valid Id`;
-
-        const user = this.usersList.get(id);
-        if (!user) return `No user found with provided Id`;
-
-        user.fname = fname;
-        user.lname = lname;
-        user.role = Roles.guest;
-
-        this.usersList.set(id, user);
-        return this.usersList.get(id);
-
-    }
-
-    deleteUserById(id: number): User[] | string {
-        if (!id || typeof id !== 'number') return `Provide a valid Id.`;
-        if (!this.usersList.has(id)) return `No user found with Id.`;
-        this.usersList.delete(id);
-
-        return Array.from(this.usersList.values());
-    }
-}
+export default User;

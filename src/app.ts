@@ -12,6 +12,7 @@ if (mongoUri && typeof mongoUri === 'string') {
 
 
 const app = express();
+app.use(express.json());
 app.use(userRouter);
 
 app.get('/homepage', (req, res) => {
