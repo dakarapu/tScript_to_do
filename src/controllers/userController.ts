@@ -4,11 +4,33 @@ import * as userOperation from '../operations/userOperation.js';
 
 export async function createNewUser(req: Request, res: Response){
     const data = req.body;
-    console.log('data ===>>>', data)
     const user = await userOperation.createUser(data);
     res.status(201).json(user);
 }
 
+export async function findUsers(req: Request, res: Response) {
+    const users = await userOperation.findUsers();
+    res.status(200).json(users);
+}
+
+export async function findUserById(req: Request, res: Response) {
+    const id = req.params.id;
+    const user = await userOperation.findUserById(id);
+    res.status(200).json(user);
+}
+
+export async function deleteUserById(req: Request, res: Response) {
+    const id = req.params.id;
+    const user = await userOperation.deleteUserById(id)
+    res.status(200).json(user);
+}
+
+export async function updateUserById(req: Request, res: Response) {
+    const id = req.params.id;
+    const data = req.body;
+    const user = await userOperation.updateUserById(id, data);
+    res.status(200).json(user);
+}
 
 
 

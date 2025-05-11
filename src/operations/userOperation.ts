@@ -13,6 +13,47 @@ export const createUser = async function (data: IUser) {
     }
 }
 
+export const findUsers = async function () {
+    try {
+        const users = await User.find();
+        return users;
+    } catch (e) {
+        console.log("Error finding users:", e);
+    }
+}
+
+export const findUserById = async function (id: string) {
+    try {
+        const objId = new mongoose.Types.ObjectId(id);
+        const user = await User.findById(objId);
+        return user;
+    } catch (e) {
+        console.log("Error finding the user:", e)
+    }
+}
+
+export const deleteUserById = async function (id: string) {
+    try {
+        const objId = new mongoose.Types.ObjectId(id);
+        const user = await User.findByIdAndDelete(id);
+        return user;
+    } catch (e) {
+        console.log("Error deleting the user:", e);
+    }
+}
+
+export const updateUserById = async function (id: string, data: IUser) {
+    try {
+        const objId = new mongoose.Types.ObjectId(id);
+        data.updatedAt = new Date();
+        const user = await User.findByIdAndUpdate(objId, data)
+    } catch (e) {
+        console.log("Error updating the user:", e)
+    }
+}
+
+
+
 
 
 

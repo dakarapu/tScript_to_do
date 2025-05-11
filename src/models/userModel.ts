@@ -8,7 +8,7 @@ export enum Roles {
 }
 
 export interface IUser extends Document {
-    fname: string, lname: string, role: Roles, readonly empId: number, createdAt?: Date, updatedAt?: Date
+    fname: string, lname: string, role: Roles, readonly empId: number, readonly createdAt?: Date, updatedAt?: Date
 }
 
 const userSchema: Schema<IUser> = new Schema(
